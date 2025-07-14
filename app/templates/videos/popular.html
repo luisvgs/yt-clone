@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Popular Videos{% endblock %}
+{% block content %}
+<h2>Top 5 Videos</h2>
+<div class="row">
+    {% for video in videos %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ video.title }}</h5>
+                    <p>Popularity: {{ video.popularity }}</p>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="{{ video.youtube_embed_url }}" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No videos found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

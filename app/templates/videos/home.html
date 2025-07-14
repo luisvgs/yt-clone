@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for video in videos %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'videos:video_detail' video.id %}">
+                            {{ video.title }}
+                        </a>
+                    </h5>
+
+                    <div class="ratio ratio-16x9 mb-3">
+                        <iframe src="{{ video.youtube_embed_url }}" allowfullscreen></iframe>
+                    </div>
+
+                    <a href="{% url 'videos:video_detail' video.id %}" class="btn btn-primary">
+                        Watch video
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No videos yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

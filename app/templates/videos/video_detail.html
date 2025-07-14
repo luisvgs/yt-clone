@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ video.title }}</h2>
+
+<div class="mb-3">
+  <iframe width="560" height="315" src="{{ video.youtube_embed_url }}" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<div class="mb-3">
+  <a href="{% url 'videos:like_video' video.id %}" class="btn btn-success {% if user_liked %}disabled{% endif %}">👍 Like ({{ video.likes.count }})</a>
+  <a href="{% url 'videos:dislike_video' video.id %}" class="btn btn-danger {% if user_disliked %}disabled{% endif %}">👎 Dislike ({{ video.dislikes.count }})</a>
+</div>
+
+<hr>
+<h4>Comments</h4>
+<form method="post" action="{% url 'videos:add_comment' video.id %}">
+  {% csrf_token %}
+  <div class="mb-3">
+    <textarea name="text" class="form-control" placeholder="Leave a comment..."></textarea>
+  </div>
+  <button class="btn btn-primary" type="submit">Post Comment</button>
+</form>
+
+<ul class="list-group mt-3">
+  {% for comment in comments %}
+    <li class="list-group-item">
+      <strong>{{ comment.user.username }}</strong> — {{ comment.created_at|date:"Y-m-d H:i" }}<br>
+      {{ comment.text }}
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

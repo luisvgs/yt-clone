@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Historial de Reproducción{% endblock %}
+
+{% block content %}
+<h2>Historial de Reproducción</h2>
+{% if page_obj.object_list %}
+    <ul class="list-group">
+    {% for vh in page_obj.object_list %}
+        <li class="list-group-item d-flex align-items-center">
+            <div class="ratio ratio-16x9 me-3" style="width: 160px; max-width: 160px; flex-shrink: 0;">
+                <iframe src="{{ vh.video.youtube_embed_url }}" allowfullscreen></iframe>
+            </div>
+            <a href="{% url 'videos:video_detail' vh.video.id %}">{{ vh.video.title }}</a>
+            <small class="text-muted">Visto el {{ vh.watched_at}}</small>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <nav aria-label="Paginación">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+        {% endif %}
+
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+{% else %}
+    <p>Parece que no has visto ningún video aún.</p>
+{% endif %}
+{% endblock %}
