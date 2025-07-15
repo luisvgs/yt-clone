@@ -9,6 +9,7 @@ Instrucciones para correr:
 docker-compose build
 docker-compose up -d
 docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py createsuperuser
 ````
 
 4) acceder a la url `http://localhost` en el navegador
